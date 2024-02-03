@@ -21,3 +21,11 @@ def users(request):
     if users:
         return Response(serialized_users.data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def logs(request):
+    logs = Logs.objects.all()
+    serialized_logs = LogsSerializer(logs, many=True)
+    if logs:
+        return Response(serialized_logs.data, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_404_NOT_FOUND)

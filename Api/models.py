@@ -7,6 +7,7 @@ class User(models.Model):
     profileName = models.CharField("Nome do perfil", max_length=255, null=False, blank=False)
     date_of_birth = models.DateField("Data de nascimento", null=False, blank=False)
     email = models.EmailField("Email", max_length=255, null=False, blank=False)
+    image = models.FileField("Foto de usuário", upload_to="fotosUsuários", null=True, blank=True)
 
     class Meta:
         verbose_name = 'Usuário'
@@ -32,3 +33,17 @@ class Discussions(models.Model):
 
     def __str__(self) -> str:
         return "{} - Publicado em {}".format(self.user.name, self.date)
+    
+class Logs(models.Model):
+    logID = models.UUIDField(primary_key=True, default=uuid4, editable=False)
+    title = models.CharField("Título", max_length=255, default="Mudanças", editable=False, null=False, blank=False)
+    subTitle = models.CharField("Sub-título", max_length=255, null=False, blank=False)
+    date = models.DateTimeField("Data do log", auto_now_add=True, null=False, blank=False)
+    image = models.FileField("Imagem do log", upload_to="imagensLog", null=False, blank=False)
+
+    class Meta:
+        verbose_name = 'Mudança'
+        verbose_name_plural = 'Mudanças'
+
+    def __str__(self) -> str:
+        return "{} - Publicado em {}".format(self.title, self.date)
