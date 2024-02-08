@@ -29,3 +29,11 @@ def logs(request):
     if logs:
         return Response(serialized_logs.data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def lastLog(request):
+    log = Logs.objects.last()
+    serialized_log = LogsSerializer(log)
+    if log:
+        return Response(serialized_log.data, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_404_NOT_FOUND)
