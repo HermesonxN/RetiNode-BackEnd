@@ -13,7 +13,6 @@ def discussions(request):
         return Response(serialized_discussions.data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_404_NOT_FOUND)
 
-
 @api_view(['GET'])
 def users(request):
     users = User.objects.all()
@@ -36,4 +35,12 @@ def lastLog(request):
     serialized_log = LogsSerializer(log)
     if log:
         return Response(serialized_log.data, status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def trendingArticles(request):
+    articles = Discussions.objects.filter(reads__gte=500)
+    serialized_articles = DiscussionSerializer(articles, many=True)
+    if articles:
+        return Response(serialized_articles.data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_404_NOT_FOUND)

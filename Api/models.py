@@ -23,9 +23,9 @@ class Discussions(models.Model):
     date = models.DateTimeField("Data da publicação", auto_now_add=True, null=False, blank=False)
     title = models.CharField("Título", max_length=255, null=False, blank=False)
     description = models.TextField("Descrição", null=False, blank=False)
-    image = models.FileField("Imagem do post", upload_to="imagens", null=False, blank=False)
-    likes = models.IntegerField("Likes na publicação")
-    reads = models.IntegerField("Leituras na publicação")
+    image = models.FileField("Imagem do post", upload_to="img", null=False, blank=False)
+    likes = models.IntegerField("Likes na publicação", default=0)
+    reads = models.IntegerField("Leituras na publicação", default=0)
 
     class Meta:
         verbose_name = 'Discussão'
@@ -38,8 +38,9 @@ class Logs(models.Model):
     logID = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     title = models.CharField("Título", max_length=255, default="Mudanças", editable=False, null=False, blank=False)
     subTitle = models.CharField("Sub-título", max_length=255, null=False, blank=False)
-    date = models.DateTimeField("Data do log", auto_now_add=True, null=False, blank=False)
-    image = models.FileField("Imagem do log", upload_to="imagensLog", null=False, blank=False)
+    description = models.CharField("Descrição", max_length=255, null=False, blank=False, default="Novas Mudanças chegaram ao RetiNode!")
+    date = models.DateTimeField("Data", auto_now_add=True, null=False, blank=False)
+    image = models.FileField("Imagem", upload_to="img", null=False, blank=False)
 
     class Meta:
         verbose_name = 'Mudança'
