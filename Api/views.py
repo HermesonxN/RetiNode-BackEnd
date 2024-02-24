@@ -5,13 +5,32 @@ from rest_framework import status
 from .models import *
 from .serializers import *
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def discussions(request):
     discussions = Discussions.objects.all()
     serialized_discussions = DiscussionSerializer(discussions, many=True)
     if discussions:
         return Response(serialized_discussions.data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['POST'])
+def create_discussion(request):
+    if request.method == "GET":
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    else:
+        user = request.data.get('user_name')
+        user_name = User.objects.get(name=user)
+        link_profile = request.data.get('linkPost')
+        title = request.data.get('title')
+        description = request.data.get('description')
+        image = request.data.get('image')
+
+        if user_name:
+            create_discussion = Discussions.objects.create(user=user_name, linkPost=link_profile, title=title, description=description, image=image)
+            create_discussion.save()
+            return Response(status=status.HTTP_201_CREATED)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def users(request):

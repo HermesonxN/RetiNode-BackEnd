@@ -32,7 +32,7 @@ class Discussions(models.Model):
     date = models.DateTimeField("Data da publicação", auto_now_add=True, null=False, blank=False)
     title = models.CharField("Título", max_length=255, null=False, blank=False)
     description = models.TextField("Descrição", null=False, blank=False)
-    image = models.ImageField("Imagem do post", upload_to=upload_image_discussion, null=False, blank=False)
+    image = models.ImageField("Imagem do post", upload_to=upload_image_discussion, null=True, blank=True)
     likes = models.IntegerField("Likes na publicação", default=0)
     reads = models.IntegerField("Leituras na publicação", default=0)
 
